@@ -1,0 +1,26 @@
+// pin ports
+ /*
+    po_0 = 0      p1_0 = 8
+    po_1   1      p1_1   9
+    po_2   2      p1_2   10
+    po_3   3      p1_3   11
+    po_4   4      p1_4   12
+    po_5   5      p1_5   13
+    po_6   6      p1_6   14
+    po_7   7      p1_7   15
+
+    */
+
+
+AW9523		 KEYWORD1 -> main object
+init(AD1,AD0) 	 KEYWORD2 
+pinMode(pin, mode) KEYWORD3
+digitalWrite(pin, high/low) KEYWORD4
+analogWrite(pin, high/low) KEYWORD5
+digitalRead(pin)	KEYWORD6
+
+
+
+
+
+
