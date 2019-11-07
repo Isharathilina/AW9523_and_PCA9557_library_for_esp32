@@ -11,7 +11,7 @@
     include wire libbary and connect aw9523 scl, sda
 
     */
-#include<aw9523.h>
+#include<AW9523.h>
 AW9523 extend;
 
 void setup() {

@@ -1,5 +1,5 @@
-#ifndef aw9523_h
-#define aw9523_h
+#ifndef AW9523_h
+#define AW9523_h
 #include "Arduino.h"
 #include <Wire.h>
 
