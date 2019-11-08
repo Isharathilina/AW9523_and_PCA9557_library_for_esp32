@@ -1,0 +1,25 @@
+// pin ports
+ /*
+    po_0 = 0     
+    po_1   1    
+    po_2   2     
+    po_3   3     
+    po_4   4     
+    po_5   5     
+    po_6   6   
+    po_7   7      
+
+    */
+
+
+PCA9557		 KEYWORD1 -> main object
+init(AD1,AD0) 	 KEYWORD2 
+pinMode(pin, mode) KEYWORD3
+digitalWrite(pin, high/low) KEYWORD4
+digitalRead(pin)	KEYWORD6
+
+
+
+
+
+
