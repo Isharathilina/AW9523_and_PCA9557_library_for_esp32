@@ -3,6 +3,17 @@
 #include "Arduino.h"
 #include <Wire.h>
 
+#define inputPort0 0x00
+#define inputPort1 0x01
+
+#define outputPort0 0x02
+#define outputPort1 0x03
+
+#define configPort0 0x04
+#define configPort1 0x05
+
+
+
 
 
 class AW9523{
@@ -50,12 +61,12 @@ class AW9523{
         05 config p2
         */
         Wire.beginTransmission(addressWrite); // transmit to device 
-        Wire.write(0x04);        // config register p0
+        Wire.write(configPort0);        // config register p0
         Wire.write(pinModeP0);        // data , all pin as input
         Wire.endTransmission();    // stop transmitting
 
         Wire.beginTransmission(addressWrite); // transmit to device 
-        Wire.write(0x05);        // config register p1
+        Wire.write(configPort1);        // config register p1
         Wire.write(pinModeP1);        // data , all pin as input
         Wire.endTransmission();    // stop transmitting
 
@@ -80,7 +91,7 @@ class AW9523{
       pinModeP0 = modifyBit(pinModeP0, pin, !mode); // change relavent bit in pin mode
 
       Wire.beginTransmission(addressWrite); // transmit to device 
-      Wire.write(0x04);        // config register p0
+      Wire.write(configPort0);        // config register p0
       Wire.write(pinModeP0);        // data
       Wire.endTransmission();    // stop transmitting
 
@@ -89,7 +100,7 @@ class AW9523{
       pinModeP1 = modifyBit(pinModeP1, pin-8, !mode); // change relavent bit in pin mode
 
       Wire.beginTransmission(addressWrite); // transmit to device 
-      Wire.write(0x05);        // config register p1
+      Wire.write(configPort1);        // config register p1
       Wire.write(pinModeP1);        // data 
       Wire.endTransmission();    // stop transmitting
     }
@@ -105,7 +116,7 @@ class AW9523{
       pinDataP0 = modifyBit(pinDataP0, pin, mode); // change relavent bit in pin mode
 
       Wire.beginTransmission(addressWrite); // transmit to device 
-      Wire.write(0x02);        // config register p0
+      Wire.write(outputPort0);        // config register p0
       Wire.write(pinDataP0);        // data
       Wire.endTransmission();    // stop transmitting
 
@@ -114,7 +125,7 @@ class AW9523{
       pinModeP1 = modifyBit(pinModeP1, pin-8, mode); // change relavent bit in pin mode
 
       Wire.beginTransmission(addressWrite); // transmit to device 
-      Wire.write(0x03);        // config register p1
+      Wire.write(outputPort1);        // config register p1
       Wire.write(pinModeP1);        // data 
       Wire.endTransmission();    // stop transmitting
     }
@@ -139,7 +150,7 @@ class AW9523{
       {  //00h reg
 
         Wire.beginTransmission(addressWrite); // transmit to device 
-        Wire.write(0x00);        // config input register 
+        Wire.write(inputPort0);        // config input register 
         Wire.endTransmission();    // stop transmitting
 
         Wire.beginTransmission(addressRead); // transmit to device for read
@@ -152,7 +163,7 @@ class AW9523{
       { // 01h reg
 
         Wire.beginTransmission(addressWrite); // transmit to device 
-        Wire.write(0x01);        // config input register 
+        Wire.write(inputPort1);        // config input register 
         Wire.endTransmission();    // stop transmitting
 
         Wire.beginTransmission(addressRead); // transmit to device for read
