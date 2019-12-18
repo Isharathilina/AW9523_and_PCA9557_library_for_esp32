@@ -18,17 +18,17 @@ void setup() {
   // put your setup code here, to run once:
   
   extend.init(1,1);
-  extend.pinMode(1,OUTPUT);
-  extend.pinMode(2,OUTPUT);
-  extend.pinMode(3,INPUT);
+  extend.CpinMode(1,OUTPUT);
+  extend.CpinMode(2,OUTPUT);
+  extend.CpinMode(3,INPUT);
   
 
 }
 
 void loop() {
   
-  extend.digitalWrite(1,HIGH);
+  extend.CdigitalWrite(1,HIGH);
   extend.analogWrite(2,100);
-  bool val = digitalRead(3);
+  bool val = CdigitalRead(3);
   
 }

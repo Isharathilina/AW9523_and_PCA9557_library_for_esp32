@@ -14,9 +14,9 @@
 
 PCA9557		 KEYWORD1 -> main object
 init(AD1,AD0) 	 KEYWORD2 
-pinMode(pin, mode) KEYWORD3
-digitalWrite(pin, high/low) KEYWORD4
-digitalRead(pin)	KEYWORD6
+CpinMode(pin, mode) KEYWORD3
+CdigitalWrite(pin, high/low) KEYWORD4
+CdigitalRead(pin)	KEYWORD6
 
 
 

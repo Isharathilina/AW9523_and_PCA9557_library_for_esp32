@@ -3,7 +3,7 @@
 #include "Arduino.h"
 #include <Wire.h>
 
-// pca9557 registers
+// pca9557 registers from data sheet
 #define configReg 0x03
 #define inputReg 0x00
 #define outputReg 0x01
@@ -18,9 +18,8 @@ class PCA9557{
       } 
 
 
-    uint8_t addressWrite;
-    uint8_t addressRead;
-    uint8_t pinModeP0 = 0xff; // all as input (1= input)
+    uint8_t i2cAddress; // 0011 a2 a1 a0  
+    uint8_t CpinModeP0 = 0xff; // all as input (1= input)
     uint8_t pinDataP0 = 0x00; // all as 0 default
     
   public:
@@ -29,33 +28,33 @@ class PCA9557{
         delay(6);
       }
 
-      // deive addr 0011 a2 a1 a0 r/w  
+      // deive addr 0011 a2 a1 a0  
       // a2 =0
     void init(bool AD1, bool AD0)
     {  // 1 for input , 0 for output
       if(AD0==1 and AD1==1){
-          addressWrite = 0x36; // 0110
+          i2cAddress = 0x1B; //0011011  27
           
         }else if(AD0==1 and AD1==0){
-          addressWrite = 0x34; // 0100
+          i2cAddress = 0x1A; //0011010	26
           
         }else if(AD0==0 and AD1==1){
-          addressWrite = 0x32; // 0010
+          i2cAddress = 0x19; //0011001	25
           
         }else if(AD0==0 and AD1==0){
-          addressWrite = 0x30; // 0000
+          i2cAddress = 0x18; //0011000	24
           
         }  
-        addressRead = addressWrite+1;
+       
 
         // config config_port registers for all pins as input in initilize mode
         /*
         04h config p1
         05 config p2
         */
-        Wire.beginTransmission(addressWrite); // transmit to device 
+        Wire.beginTransmission(i2cAddress); // transmit to device 
         Wire.write(configReg);        // config register p0
-        Wire.write(pinModeP0);        // data , all pin as input
+        Wire.write(CpinModeP0);        // data , all pin as input
         Wire.endTransmission();    // stop transmitting
 
       }
@@ -72,13 +71,13 @@ class PCA9557{
 
     */
 
-  // pin , pinmode  INPUT == 0
+  // pin , CpinMode  INPUT == 0
   void pinMode(uint8_t pin, uint8_t mode)
   {
     
-      pinModeP0 = modifyBit(pinModeP0, pin, !mode); // change relavent bit in pin mode
+      pinModeP0 = modifyBit(pinModeP0, pin, !mode); // change relavent bit in pin mode (!mode use for match with arduino mode)
 
-      Wire.beginTransmission(addressWrite); // transmit to device 
+      Wire.beginTransmission(i2cAddress); // transmit to device 
       Wire.write(configReg);        // config register p0
       Wire.write(pinModeP0);        // data
       Wire.endTransmission();    // stop transmitting
@@ -94,7 +93,7 @@ class PCA9557{
   
       pinDataP0 = modifyBit(pinDataP0, pin, mode); // change relavent bit in pin data
 
-      Wire.beginTransmission(addressWrite); // transmit to device 
+      Wire.beginTransmission(i2cAddress); // transmit to device 
       Wire.write(outputReg);        // config register p0
       Wire.write(pinDataP0);        // data
       Wire.endTransmission();    // stop transmitting
@@ -106,11 +105,12 @@ class PCA9557{
   bool digitalRead(uint8_t pin)
   {
      
-        Wire.beginTransmission(addressWrite); // transmit to device 
+        Wire.beginTransmission(i2cAddress); // transmit to device 
         Wire.write(inputReg);        // config input register 
         Wire.endTransmission();    // stop transmitting
 
-        Wire.beginTransmission(addressRead); // transmit to device for read
+        Wire.beginTransmission(i2cAddress); // transmit to device for read
+		Wire.requestFrom(i2cAddress, 1);   // read 1 byte
         uint8_t ReadDataP0 = Wire.read(); // receive byte 
 
         return  (ReadDataP0 >> pin) & 1;
